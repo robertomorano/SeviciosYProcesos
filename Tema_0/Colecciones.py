@@ -40,4 +40,88 @@ def Ej5():
     list = [random.randint(1,11) for x in range(100)]
     user = int(input("numeraco aqui"))
     cont = 0
-    for num in    
+    #numberlist = [1,2,3,4,5,6,7,8,9,10]
+    dicti = {"1": 0,"2": 0,"3": 0,"4": 0,"5": 0,"6": 0,"7": 0, "8": 0, "9": 0, "10": 0}
+    for i in range(len(dicti)):
+        for num in list:
+            if num == (i+1):
+                cont+=1
+        dicti[i+1] = cont
+        cont = 0
+                
+
+
+# Escribe un programa que tome una cadena de texto
+# como entrada y genere un diccionario que cuente la frecuencia de cada palabra en el texto.
+
+def frequency():
+    alphabet = {}
+    string = "asdaefgmgmaigpm"
+    string.count("a")
+    for letter in string:
+        cont = string.count(letter)
+        alphabet[letter] = cont
+    
+    print(alphabet)
+
+# Crea un programa que permita al usuario agregar, eliminar y buscar contactos en una 
+# libreta de direcciones implementada como un diccionario. La clave del diccionario será 
+# el nombre del contacto y el valor, su número de teléfono.
+#  Crea un menú para las distintas opciones e implementa una función para cada opción.
+
+def contact():
+    contacts = {}
+    option = int(input(''' Menu
+                       1. Agregar
+                       2.Eliminar.
+                       3.Buscar
+                       0.Salir'''))
+
+    while(option != 0):
+        if (option == 1):
+            nombre = input("NombrePersona")
+            contacts[nombre] =  int(input("NumeroPersona"))
+        elif (option == 2):
+            nombre = input("NombrePersona")
+            contacts.pop(nombre)
+
+        elif (option == 3):
+            nombre = input("NombrePersona")
+            print(nombre, "->",contacts[nombre])
+        option = int(input(''' Menu
+                       1. Agregar
+                       2.Eliminar.
+                       3.Buscar
+                       0.Salir'''))
+
+        
+#   Diseña un programa que registre las ventas de una tienda en un diccionario, 
+# donde las claves son los nombres de
+#  los productos y los valores son las cantidades vendidas.
+#  El programa debe permitir al usuario agregar
+#  nuevas ventas y calcular el total de ventas para un producto específico. 
+# Implementa un menú con ambas opciones. 
+
+#lo mismo de arriba pero sumando
+
+"""
+Crea un diccionario donde las claves son las letras del abecedario y los valores, 
+la puntuación para cada letra, como en el Scrabble.
+ El programa le pedirá una palabra al usuario y 
+ se mostrará por pantalla la puntuación que tiene la palabra en total.
+"""
+
+#rea un diccionario donde las claves sean el conjunto 1 de la siguiente tabla y los valores, el conjunto 2:
+# El programa debe pedir una frase al usuario y debe mostrar la frase encriptada. 
+# Para ello, cada vez que encuentre en la frase una letra del conjunto 1
+#  la sustituirá por su correspondiente en el conjunto 2.
+def crytography():
+    encrypt = {"e":"p", "i":"v","k": "i", "m": "u", "p": "m", "q":"t","r":"e","s":"r","t":"k","u":"q", "v":"s"}
+    normal = input("Texto aqui")
+    encrypted = ""
+    for letter in normal:
+        if letter in encrypt.keys:
+            encrypted += encrypt[letter]
+        else:
+            encrypted += letter
+    print (encrypted)
