@@ -23,9 +23,10 @@ class CuentaCorriente:
             res = True
         return res
         
-    def sacarDinero():
-        pass
-    #me da la risa
+    def sacarDinero(self, give):
+        if(self.__salary-give >= 0):
+            self.__salary -= give
+        
 
-    def ingresar(increase):
+    def ingresar(self, increase):
         self.__salary += increase
