@@ -1,9 +1,9 @@
 from pydantic import BaseModel
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 import jwt
 from jwt.exceptions import InvalidTokenError
 from pwdlib import PasswordHash
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm, OAuth2PasswordRequestFormStrict
 
 oauth2 = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -58,3 +58,7 @@ def register(user:UserDB):
         else:
                raise HTTPException(status_code= 409, detail="User already exists")
         
+@router.post("/login")
+async def login(form: OAuth2PasswordRequestFormStrict = Depends()):
+       if form.username in users_db:
+              if form.password_ha
