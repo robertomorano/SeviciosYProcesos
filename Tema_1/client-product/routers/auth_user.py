@@ -82,7 +82,19 @@ async def login(form: OAuth2PasswordRequestForm = Depends()):
                                 expire = datetime.now(timezone.utc)+timedelta(minutes=ACCES_TOKEN_EXPIRE_MINUTES)
                                 access_token = {"sub": user.username, "exp": expire}
                                 token = jwt.encode(access_token, SECRET_KEY, algorithm=ALGORITHM)
-                                return {"access_toke": token, "token_type":"bearer"}
+                                return {"access_token": token, "token_type":"bearer"}
         except:
                 raise HTTPException(status_code=400, detail="autencacion")
         raise HTTPException(status_code=401, detail="Usuersuario o contraseña incorremcotos")
+
+async def authentication(token:str = Depends(oauth2)):
+        try:
+                username = jwt.decode(token, SECRET_KEY, algorithm=ALGORITHM).get("sub")
+                
+                if username is None:
+                        raise HTTPException(status_code=401, detail="Credenciales no Validads",
+                                        headers={"WWW-Authenticate":"Bearer"})
+        except jwt.PyJWTError:
+                raise HTTPException(status_code=401, detail="Credenciales no Validads",
+                                        headers={"WWW-Authenticate":"Bearer"})
+        user = User(**users_db[username])
