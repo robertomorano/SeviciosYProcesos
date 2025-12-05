@@ -51,7 +51,7 @@ users_db = {
                 "fullname": "user sario",
                 "email": "meradsa.dime@loqsea.com",
                 "disabled": True,
-                "password": "$argon2id$v=19$m=65536,t=3,p=4$pMGQCZp/VrMC35OBKG7mzg$457CpdKbso4rZ7oYhW/h6nMV4SFiQtNJpKmEL2/SDWE"#55454663
+                "password": "$argon2id$v=19$m=65536,t=3,p=4$pMGQCZp/VrMC35OBKG7mzg$457CpdKbso4rZ7oYhW/h6nMV4SFiQtNJpKmEL2/SDWE" #55454663
 }
         
 }
@@ -81,7 +81,7 @@ async def login(form: OAuth2PasswordRequestForm = Depends()):
                         if password_hash.verify(form.password, user.password):
                                 expire = datetime.now(timezone.utc)+timedelta(minutes=ACCES_TOKEN_EXPIRE_MINUTES)
                                 access_token = {"sub": user.username, "exp": expire}
-                                token = jwt.encode(access_token, SECRET_KEY, algorithm=ALGORITHM)
+                                token = jwt.encode(access_token, SECRET_KEY, algorithms=[ALGORITHM])
                                 return {"access_token": token, "token_type":"bearer"}
         except:
                 raise HTTPException(status_code=400, detail="autencacion")
@@ -89,7 +89,7 @@ async def login(form: OAuth2PasswordRequestForm = Depends()):
 
 async def authentication(token:str = Depends(oauth2)):
         try:
-                username = jwt.decode(token, SECRET_KEY, algorithm=ALGORITHM).get("sub")
+                username = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM]).get("sub")
                 
                 if username is None:
                         raise HTTPException(status_code=401, detail="Credenciales no Validads",
@@ -98,3 +98,4 @@ async def authentication(token:str = Depends(oauth2)):
                 raise HTTPException(status_code=401, detail="Credenciales no Validads",
                                         headers={"WWW-Authenticate":"Bearer"})
         user = User(**users_db[username])
+

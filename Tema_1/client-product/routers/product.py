@@ -1,14 +1,12 @@
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends, HTTPException
+from db.models.product import Product
+from db.shemas.product import product_schema, products_schemas
+
+from .auth_user import authentication
 
 router = APIRouter(prefix="/products", tags = ["products"])
 
-class Product(BaseModel):
-    id : int
-    name : str
-    description : str
-    price : float
-    id_cliente : int
+
 
 product_list = [Product(id = 1, name= "Paco", description= "Peres", price= 15, id_cliente=1),
               Product(id = 2,name= "Pacdasdas", description= "Peres", price= 15, id_cliente=2), 
@@ -41,7 +39,7 @@ def products(id : int):
 #POST Method
 
 @router.post("/", status_code=201, response_model=Product)
-def add_product(product: Product):
+def add_product(product: Product, authorized=Depends(authentication)):
     product.id = next_id()
     product_list.append(product)
     return product

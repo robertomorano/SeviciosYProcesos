@@ -1,16 +1,10 @@
 from fastapi import FastAPI, APIRouter , HTTPException
-from pydantic import BaseModel
+from db.models.cliente import Cliente
 
 
 router = APIRouter(prefix="/clientes", tags=["clientes"])
 
-class Cliente(BaseModel):
-    id : int
-    dni: str
-    name : str
-    surname : str
-    phone : int
-    email : str
+
 
 
 lista_cliente = [Cliente(id = 1, dni = "202043Y",name= "Paco", surname= "Peres", phone= 15, email="a@b.c"),
