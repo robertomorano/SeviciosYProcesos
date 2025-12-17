@@ -6,7 +6,7 @@ from db.client import db_client
 
 from .auth_user import authentication
 
-router = APIRouter(prefix="/products", tags = ["products"])
+router = APIRouter(prefix="/productsdb", tags = ["products"])
 
 
 
