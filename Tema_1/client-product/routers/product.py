@@ -1,4 +1,4 @@
-"""from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from db.models.product import Product
 from db.shemas.product import product_schema, products_schemas
 
@@ -67,4 +67,4 @@ def delete_product(id:int):
             product_list.remove(saved_product)
             return {}
     raise HTTPException(status_code=404, detail="product not found") 
-    """
+    
