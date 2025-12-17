@@ -18,7 +18,7 @@ def next_id():
 
 def find_product(id : int):
     product = [product for product in product_list if product.id == id]
-    return product[0] if (len(product) !=0) else {"Esta": "Mal"}
+    return product[0] if (len(product) !=0) else {"Esta": "Mal"} 
 
 #GET Method
 
