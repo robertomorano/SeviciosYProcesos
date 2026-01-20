@@ -1,43 +1,56 @@
 from multiprocessing import Process, Queue
 import time
-import os
 
-
-def sumar(number : int) -> None:
+# Esta función es el CONSUMIDOR (recibe datos)
+def sumar_desde_cola(cola):
     suma = 0
-    for i in range(number):
-        suma += i
-        print(suma)
-    print("Ej terminado")
-
-def leer():
-    try:
-        with open("ej3.txt", "r") as ej:
-            for linea in ej:
-                pass
-    except FileNotFoundError:
-        print("adwa")
-
+    while numero != None:
         
+        numero = cola.get() 
+        
+            
+        suma += numero
+        print(f"[Proceso {time.perf_counter()}] Suma parcial: {suma}")
+    
+    print(f"Resultado final: {suma}")
+
+# Esta función es el PRODUCTOR (envía datos)
+def leer_archivo_y_enviar(ruta, cola):
+    try:
+        with open(ruta, "r") as f:
+            for linea in f:
+                n = int(linea.strip())
+                print(f"Enviando {n} a la cola...")
+                cola.put(n)
+                
+    except FileNotFoundError:
+        print("Archivo no encontrado.")
+    finally:
+        # IMPORTANTE: Avisar que hemos terminado
+        cola.put(None)
 
 def main():
-
     qiu = Queue()
-    #dEClara proceso nombre y los argumentos a pasar
-    p1 = Process(target=sumar, args=(qiu,))
-    p2 = Process(target=sumar, args=(qiu,))
-    #inicia el subproceso distinto al main
+    
+    # Creamos el archivo de prueba
+    with open("ej3.txt", "w") as f:
+        f.write("10\n20\n30")
+
+    # Definimos los procesos
+    # p1 leerá y p2 sumará
+    p1 = Process(target=leer_archivo_y_enviar, args=("ej3.txt", qiu))
+    p2 = Process(target=sumar_desde_cola, args=(qiu,))
+
     inicio = time.perf_counter()
+    
     p1.start()
     p2.start()
-    print("Se hace print antes de terminar p")
-    #Esperar a que acabe el subproceso para continuar ejecutando
-    p1.join()
-    qiu.put(None)
-    p2.join
+
+    p1.join() # Esperamos a que termine de leer
+    p2.join() # Esperamos a que termine de sumar
+
     fin = time.perf_counter()
-    tiempo = fin-inicio
-    print(f"Procesos terminado, {tiempo}")
+    print(f"Todo terminado en {fin - inicio:.4f} segundos")
 
 if __name__ == "__main__":
     main()

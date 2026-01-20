@@ -4,7 +4,7 @@ import time
 
 def sumar(number : int) -> None:
     suma = 0
-    for i in range(number):
+    for i in number:
         suma += i
         print(suma)
     print("Ej terminado")
@@ -26,8 +26,8 @@ def main():
     print("Se hace print antes de terminar p")
     #Esperar a que acabe el subproceso para continuar ejecutando
     p1.join()
-    qiu.put(None)
-    p2.join
+    
+    p2.join()
     fin = time.perf_counter()
     tiempo = fin-inicio
     print(f"Procesos terminado, {tiempo}")
