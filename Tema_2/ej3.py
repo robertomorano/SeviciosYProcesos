@@ -14,7 +14,7 @@ def sumar_desde_cola(cola):
     
     print(f"Resultado final: {suma}")
 
-# Esta función es el PRODUCTOR (envía datos)
+
 def leer_archivo_y_enviar(ruta, cola):
     try:
         with open(ruta, "r") as f:
