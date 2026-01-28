@@ -1,0 +1,5 @@
+Este es un texto de ejemplo para contar las vocales.
+Python es un lenguaje de programación muy popular.
+El procesamiento paralelo permite ejecutar tareas simultáneamente.
+Las vocales son: a, e, i, o, u.
+¡Multiprocessing es una herramienta muy útil!
