@@ -1,4 +1,4 @@
-import multiprocessing as mp
+from multiprocessing import Pool
 from pathlib import Path
 
 
@@ -32,7 +32,7 @@ def main():
     vocales = ['a', 'e', 'i', 'o', 'u']
     
     # Crear un pool de procesos
-    with mp.Pool(processes=5) as pool:
+    with Pool(processes=5) as pool:
         # Preparar los argumentos para cada proceso
         # Usamos starmap para pasar múltiples argumentos
         argumentos = [(vocal, archivo) for vocal in vocales]
