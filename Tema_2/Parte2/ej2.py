@@ -22,20 +22,17 @@ def valida_ip():
     pass
 
 def proceso1_generar_ips(conn):
-    """
-    Proceso 1: Genera 10 direcciones IP aleatorias y las envía al Proceso 2
-    """
-    print("[Proceso 1] Generando 10 direcciones IP aleatorias...")
+
     
     for i in range(10):
         ip = genera_ip()
-        print(f"[Proceso 1] IP generada #{i+1}: {ip}")
+        print(f"IP generada #{i+1}: {ip}")
         conn.send(ip)
     
     # Enviar señal de finalización
     conn.send(None)
     conn.close()
-    print("[Proceso 1] Finalizado")
+
 
 
 def proceso2_filtrar_ips(conn_entrada, conn_salida):
@@ -50,14 +47,14 @@ def proceso2_filtrar_ips(conn_entrada, conn_salida):
         if ip is None:  # Señal de finalización
             break
         
-        clase = clasificar_ip(ip)
+        clase = clasifica_ip(ip)
         
         if clase in ['A', 'B', 'C']:
-            print(f"[Proceso 2] ✓ IP {ip} (Clase {clase}) - ACEPTADA")
+            print(f"IP {ip} (Clase {clase}) - ACEPTADA")
             conn_salida.send((ip, clase))
             ips_filtradas += 1
         else:
-            print(f"[Proceso 2] ✗ IP {ip} (Clase {clase}) - RECHAZADA")
+            print(f"IP {ip} (Clase {clase}) - RECHAZADA")
             ips_descartadas += 1
     
     # Enviar señal de finalización
@@ -65,7 +62,7 @@ def proceso2_filtrar_ips(conn_entrada, conn_salida):
     conn_entrada.close()
     conn_salida.close()
     
-    print(f"[Proceso 2] Finalizado - Filtradas: {ips_filtradas}, Rechazadas: {ips_descartadas}")
+    print(f"Finalizado - Filtradas: {ips_filtradas}, Rechazadas: {ips_descartadas}")
 
 
 def proceso3_mostrar_ips(conn):
@@ -76,7 +73,7 @@ def proceso3_mostrar_ips(conn):
     while True:
         ip, clase = conn.recv()
         
-        if ip is None:  # Señal de finalización
+        if ip is None:  
             break
         
         contador += 1
@@ -85,13 +82,11 @@ def proceso3_mostrar_ips(conn):
 def main():
     tiempo_inicio = time.time()
     
-    # Crear dos pipes para la comunicación entre procesos
-    # pipe1: Proceso 1 → Proceso 2
-    # pipe2: Proceso 2 → Proceso 3
+
     conn1_send, conn1_recv = Pipe()
     conn2_send, conn2_recv = Pipe()
     
-    # Crear los tres procesos
+
     p1 = Process(target=proceso1_generar_ips, args=(conn1_send,))
     p2 = Process(target=proceso2_filtrar_ips, args=(conn1_recv, conn2_send))
     p3 = Process(target=proceso3_mostrar_ips, args=(conn2_recv,))
